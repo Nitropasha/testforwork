@@ -1,0 +1,192 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-documents
+      author: you
+      changes:
+        - createTable:
+            tableName: documents
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: doc_number
+                  type: VARCHAR(64)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+              - column:
+                  name: author
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: status
+                  type: VARCHAR(32)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: version
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - createIndex:
+            tableName: documents
+            indexName: idx_documents_status
+            columns:
+              - column:
+                  name: status
+
+        - createIndex:
+            tableName: documents
+            indexName: idx_documents_author
+            columns:
+              - column:
+                  name: author
+
+        - createIndex:
+            tableName: documents
+            indexName: idx_documents_created_at
+            columns:
+              - column:
+                  name: created_at
+
+  # =====================
+  # document_status_history
+  # =====================
+  - changeSet:
+      id: 002-create-document-status-history
+      author: you
+      changes:
+        - createTable:
+            tableName: document_status_history
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: document_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: action
+                  type: VARCHAR(32)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: from_status
+                  type: VARCHAR(32)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: to_status
+                  type: VARCHAR(32)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: performed_by
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: performed_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: comment
+                  type: VARCHAR(1024)
+
+        - addForeignKeyConstraint:
+            baseTableName: document_status_history
+            baseColumnNames: document_id
+            referencedTableName: documents
+            referencedColumnNames: id
+            constraintName: fk_history_document
+
+        - createIndex:
+            tableName: document_status_history
+            indexName: idx_history_document_id
+            columns:
+              - column:
+                  name: document_id
+
+  # =====================
+  # approval_registry
+  # =====================
+  - changeSet:
+      id: 003-create-approval-registry
+      author: you
+      changes:
+        - createTable:
+            tableName: approval_registry
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: document_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    unique: true
+
+              - column:
+                  name: approved_by
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: approved_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: approval_registry
+            baseColumnNames: document_id
+            referencedTableName: documents
+            referencedColumnNames: id
+            constraintName: fk_registry_document
