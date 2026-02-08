@@ -4,7 +4,6 @@ import org.dzhioev.ws.docservice.dto.BatchSubmitRequest;
 import org.dzhioev.ws.docservice.entity.Document;
 import org.dzhioev.ws.docservice.enums.BatchResultStatus;
 import org.dzhioev.ws.docservice.exeptions.ConflictException;
-import org.dzhioev.ws.docservice.service.BatchDocumentService;
 import org.dzhioev.ws.docservice.service.DocumentService;
 import org.dzhioev.ws.docservice.service.impl.BatchDocumentServiceImpl;
 import org.junit.jupiter.api.Test;
