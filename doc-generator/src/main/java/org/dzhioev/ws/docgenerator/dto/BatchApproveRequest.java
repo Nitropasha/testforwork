@@ -1,4 +1,9 @@
 package org.dzhioev.ws.docgenerator.dto;
 
-public class BatchApproveRequest {
-}
+import java.util.List;
+
+public record BatchApproveRequest(
+        String initiator,
+        String comment,
+        List<Long> documentIds
+) {}

@@ -1,4 +1,9 @@
 package org.dzhioev.ws.docservice.dto;
 
-public record BatchItemResult() {
-}
+import org.dzhioev.ws.docservice.enums.BatchResultStatus;
+
+public record BatchItemResult(
+        Long documentId,
+        BatchResultStatus status,
+        String message
+) {}

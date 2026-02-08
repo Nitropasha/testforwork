@@ -1,4 +1,6 @@
 package org.dzhioev.ws.docservice.dto;
 
-public record SubmitDocumentRequest() {
-}
+public record SubmitDocumentRequest(
+        String initiator,
+        String comment
+) {}

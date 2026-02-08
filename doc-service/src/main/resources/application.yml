@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: document-service
+  datasource:
+    url: jdbc:postgresql://localhost:5433/document_db
+    username: document_user
+    password: document_pass
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+        format_sql: true
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    drop-first: false
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    liquibase: DEBUG
+
+server:
+  port: 8080

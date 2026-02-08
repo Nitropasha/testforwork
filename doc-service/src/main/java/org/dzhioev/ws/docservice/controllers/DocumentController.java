@@ -1,24 +1,36 @@
 package org.dzhioev.ws.docservice.controllers;
 
+import org.dzhioev.ws.docservice.dto.ApproveDocumentRequest;
 import org.dzhioev.ws.docservice.dto.CreateDocumentRequest;
 import org.dzhioev.ws.docservice.dto.DocumentResponse;
+import org.dzhioev.ws.docservice.dto.DocumentSearchFilter;
+import org.dzhioev.ws.docservice.dto.SubmitDocumentRequest;
 import org.dzhioev.ws.docservice.entity.Document;
+import org.dzhioev.ws.docservice.enums.DocumentStatus;
+import org.dzhioev.ws.docservice.service.DocumentSearchService;
 import org.dzhioev.ws.docservice.service.DocumentService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/documents")
 public class DocumentController {
 
     private final DocumentService documentService;
+    private final DocumentSearchService searchService;
 
-    public DocumentController(DocumentService documentService) {
+    public DocumentController(DocumentService documentService, DocumentSearchService searchService) {
         this.documentService = documentService;
+        this.searchService = searchService;
     }
 
     @PostMapping
@@ -31,6 +43,46 @@ public class DocumentController {
     public DocumentResponse getById(@PathVariable Long id) {
         Document document = documentService.getDocById(id);
         return toResponse(document);
+    }
+
+    @PostMapping("/{id}/submit")
+    public DocumentResponse submit(
+            @PathVariable Long id,
+            @RequestBody SubmitDocumentRequest request
+    ) {
+        Document document = documentService.submit(id, request);
+        return toResponse(document);
+    }
+
+    @PostMapping("/{id}/approve")
+    public DocumentResponse approve(
+            @PathVariable Long id,
+            @RequestBody ApproveDocumentRequest request
+    ) {
+        Document document = documentService.approve(id, request);
+        return toResponse(document);
+    }
+
+    @GetMapping("/search")
+    public List<DocumentResponse> search(
+            @RequestParam(required = false) DocumentStatus status,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dateFrom,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dateTo,
+            @RequestParam(required = false, defaultValue = "100") int limit
+    ) {
+        DocumentSearchFilter filter = new DocumentSearchFilter(
+                status, author, dateFrom, dateTo
+        );
+
+        return searchService.search(filter, limit)
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 
     private DocumentResponse toResponse(Document document) {

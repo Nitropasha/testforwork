@@ -3,13 +3,12 @@ package org.dzhioev.ws.docservice.service.impl;
 import jakarta.persistence.criteria.Predicate;
 import org.dzhioev.ws.docservice.dto.DocumentSearchFilter;
 import org.dzhioev.ws.docservice.entity.Document;
-import org.dzhioev.ws.docservice.service.DocumentSpecifications;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DocumentSpecificationsImpl implements DocumentSpecifications {
+public class DocumentSpecifications  {
 
     public static Specification<Document> byFilter(DocumentSearchFilter filter) {
         return (root, query, cb) -> {

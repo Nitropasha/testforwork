@@ -1,4 +1,6 @@
 package org.dzhioev.ws.docgenerator.dto;
 
-public record DocumentDto() {
-}
+public record DocumentDto(
+        Long id,
+        String status
+) {}

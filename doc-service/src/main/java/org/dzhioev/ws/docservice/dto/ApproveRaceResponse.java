@@ -1,4 +1,10 @@
 package org.dzhioev.ws.docservice.dto;
 
-public record ApproveRaceResponse() {
-}
+import org.dzhioev.ws.docservice.enums.DocumentStatus;
+
+public record ApproveRaceResponse(
+        int successCount,
+        int conflictCount,
+        int errorCount,
+        DocumentStatus finalStatus
+) {}

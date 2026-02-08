@@ -1,4 +1,10 @@
 package org.dzhioev.ws.docservice.dto;
 
-public record BatchApproveRequest() {
+import java.util.List;
+
+public record BatchApproveRequest(
+        String initiator,
+        String comment,
+        List<Long> documentIds
+) {
 }

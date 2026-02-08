@@ -1,4 +1,6 @@
 package org.dzhioev.ws.docservice.dto;
 
-public class CreateDocumentRequest {
-}
+public record CreateDocumentRequest(
+        String author,
+        String title
+) {}
