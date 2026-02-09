@@ -5,7 +5,7 @@ import org.dzhioev.ws.docservice.entity.Document;
 import org.dzhioev.ws.docservice.enums.BatchResultStatus;
 import org.dzhioev.ws.docservice.exeptions.ConflictException;
 import org.dzhioev.ws.docservice.service.DocumentService;
-import org.dzhioev.ws.docservice.service.impl.BatchDocumentServiceImpl;
+import org.dzhioev.ws.docservice.service.impl.BatchSubmitServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,7 +25,7 @@ class BatchSubmitServiceTest {
     private DocumentService documentService;
 
     @InjectMocks
-    private BatchDocumentServiceImpl batchSubmitService;
+    private BatchSubmitServiceImpl batchSubmitService;
 
     @Test
     void batchSubmit_shouldHandlePartialConflicts() {

@@ -8,7 +8,7 @@ import org.dzhioev.ws.docservice.enums.BatchResultStatus;
 import org.dzhioev.ws.docservice.exeptions.ConflictException;
 import org.dzhioev.ws.docservice.exeptions.NotFoundException;
 import org.dzhioev.ws.docservice.exeptions.ValidationException;
-import org.dzhioev.ws.docservice.service.BatchDocumentService;
+import org.dzhioev.ws.docservice.service.BatchSubmitService;
 import org.dzhioev.ws.docservice.service.DocumentService;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BatchDocumentServiceImpl implements BatchDocumentService {
+public class BatchSubmitServiceImpl implements BatchSubmitService {
 
     private final DocumentService documentService;
 
-    public BatchDocumentServiceImpl(DocumentService documentService) {
+    public BatchSubmitServiceImpl(DocumentService documentService) {
         this.documentService = documentService;
     }
 
