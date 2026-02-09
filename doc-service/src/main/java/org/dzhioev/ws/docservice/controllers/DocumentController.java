@@ -7,6 +7,7 @@ import org.dzhioev.ws.docservice.dto.DocumentSearchFilter;
 import org.dzhioev.ws.docservice.dto.SubmitDocumentRequest;
 import org.dzhioev.ws.docservice.entity.Document;
 import org.dzhioev.ws.docservice.enums.DocumentStatus;
+import org.dzhioev.ws.docservice.mapper.DocumentMapper;
 import org.dzhioev.ws.docservice.service.DocumentSearchService;
 import org.dzhioev.ws.docservice.service.DocumentService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,22 +28,24 @@ public class DocumentController {
 
     private final DocumentService documentService;
     private final DocumentSearchService searchService;
+    private final DocumentMapper documentMapper;
 
-    public DocumentController(DocumentService documentService, DocumentSearchService searchService) {
+    public DocumentController(DocumentService documentService, DocumentSearchService searchService, DocumentMapper documentMapper) {
         this.documentService = documentService;
         this.searchService = searchService;
+        this.documentMapper = documentMapper;
     }
 
     @PostMapping
     public DocumentResponse createDoc(@RequestBody CreateDocumentRequest request) {
         Document document = documentService.createDoc(request);
-        return toResponse(document);
+        return documentMapper.toResponse(document);
     }
 
     @GetMapping("/{id}")
     public DocumentResponse getById(@PathVariable Long id) {
         Document document = documentService.getDocById(id);
-        return toResponse(document);
+        return documentMapper.toResponse(document);
     }
 
     @PostMapping("/{id}/submit")
@@ -51,7 +54,7 @@ public class DocumentController {
             @RequestBody SubmitDocumentRequest request
     ) {
         Document document = documentService.submit(id, request);
-        return toResponse(document);
+        return documentMapper.toResponse(document);
     }
 
     @PostMapping("/{id}/approve")
@@ -60,7 +63,7 @@ public class DocumentController {
             @RequestBody ApproveDocumentRequest request
     ) {
         Document document = documentService.approve(id, request);
-        return toResponse(document);
+        return documentMapper.toResponse(document);
     }
 
     @GetMapping("/search")
@@ -81,20 +84,20 @@ public class DocumentController {
 
         return searchService.search(filter, limit)
                 .stream()
-                .map(this::toResponse)
+                .map(documentMapper::toResponse)
                 .toList();
     }
 
-    private DocumentResponse toResponse(Document document) {
-        return new DocumentResponse(
-                document.getId(),
-                document.getDocNumber(),
-                document.getAuthor(),
-                document.getTitle(),
-                document.getStatus(),
-                document.getCreatedAt(),
-                document.getUpdatedAt()
-        );
-    }
+//    private DocumentResponse toResponse(Document document) {
+//        return new DocumentResponse(
+//                document.getId(),
+//                document.getDocNumber(),
+//                document.getAuthor(),
+//                document.getTitle(),
+//                document.getStatus(),
+//                document.getCreatedAt(),
+//                document.getUpdatedAt()
+//        );
+//    }
 }
 
