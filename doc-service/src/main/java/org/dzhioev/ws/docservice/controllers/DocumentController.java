@@ -88,16 +88,5 @@ public class DocumentController {
                 .toList();
     }
 
-//    private DocumentResponse toResponse(Document document) {
-//        return new DocumentResponse(
-//                document.getId(),
-//                document.getDocNumber(),
-//                document.getAuthor(),
-//                document.getTitle(),
-//                document.getStatus(),
-//                document.getCreatedAt(),
-//                document.getUpdatedAt()
-//        );
-//    }
 }
 
