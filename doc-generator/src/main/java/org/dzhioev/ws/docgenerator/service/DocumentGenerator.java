@@ -57,7 +57,7 @@ public class DocumentGenerator implements CommandLineRunner {
                     log.error("Failed to create document", e);
                 }
             }
-            Thread.sleep(1000);
+            Thread.sleep(100);
 
             created += batch;
             log.info("Created {}/{} documents", created, count);
