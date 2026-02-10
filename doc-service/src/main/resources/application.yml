@@ -22,8 +22,8 @@ spring:
 
 logging:
   level:
-    org.hibernate.SQL: debug
-    liquibase: DEBUG
+    org.hibernate.SQL: error
+    liquibase: error
 
 server:
   port: 8080

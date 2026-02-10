@@ -34,7 +34,7 @@ public class DocumentGenerator implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws InterruptedException {
         log.info("Document generation started: total={}, batchSize={}", count, batchSize);
 
         long start = System.currentTimeMillis();
@@ -57,6 +57,7 @@ public class DocumentGenerator implements CommandLineRunner {
                     log.error("Failed to create document", e);
                 }
             }
+            Thread.sleep(1000);
 
             created += batch;
             log.info("Created {}/{} documents", created, count);
